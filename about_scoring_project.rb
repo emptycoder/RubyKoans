@@ -30,7 +30,41 @@ require File.expand_path(File.dirname(__FILE__) + '/neo')
 # Your goal is to write the score method.
 
 def score(dice)
-  # You need to write this method
+  dice.sort!
+  sentence = dice.join('')
+  score = 0
+  rep_to_sym = {
+    "111" => "a",
+    "666" => "b",
+    "555" => "c",
+    "444" => "d",
+    "333" => "e",
+    "222" => "f"
+  }
+  rep_to_score = {
+    "a" => 1000,
+    "b" => 600,
+    "c" => 500,
+    "d" => 400,
+    "e" => 300,
+    "f" => 200,
+    "g" => 100,
+    "h" => 50
+  }
+
+  rep_to_sym.each do |part, symbol|
+    sentence.sub! part, symbol
+  end
+  sentence.gsub! '1', 'g'
+  sentence.gsub! '5', 'h'
+
+  sentence.each_char do |symbol| 
+    if (rep_to_score[symbol].nil?) 
+      next 
+    end
+    score += rep_to_score[symbol]
+  end
+  score
 end
 
 class AboutScoringProject < Neo::Koan
